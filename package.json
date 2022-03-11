@@ -6,7 +6,6 @@
   "repository": "https://github.com/GaboMendez/ShopsRUs.git",
   "author": "GabrielMendez <gabriel.mendez0@hotmail.com>",
   "license": "MIT",
-  "private": true,
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.3",
