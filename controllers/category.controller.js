@@ -1,11 +1,11 @@
 const db = require('../models');
-const Category = db.categories;
+const Category = db.category;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Category
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.title) {
+  if (!req.body.name) {
     res.status(400).send({
       message: 'Content can not be empty!',
     });

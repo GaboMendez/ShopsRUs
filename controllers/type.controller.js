@@ -1,22 +1,22 @@
 const db = require('../models');
-const Type = db.types;
+const Type = db.type;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Type
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.title) {
+  if (!req.body.name) {
     res.status(400).send({
       message: 'Content can not be empty!',
     });
     return;
   }
   // Create a Type
-  const Type = {
+  const type = {
     name: req.body.name,
   };
   // Save Type in the database
-  Type.create(Type)
+  Type.create(type)
     .then((data) => {
       res.send(data);
     })
