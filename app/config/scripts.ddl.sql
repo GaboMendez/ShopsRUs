@@ -1,66 +1,59 @@
-/*DROP*
- DROP TABLE IF EXISTS invoice_detail;
- DROP TABLE IF EXISTS invoice;
- DROP TABLE IF EXISTS client;
- DROP TABLE IF EXISTS discount;
- DROP TABLE IF EXISTS type;
- DROP TABLE IF EXISTS product;
- DROP TABLE IF EXISTS category;
- /*CREATE*/
+/*DROP**/
+DROP TABLE IF EXISTS invoice_detail;
+DROP TABLE IF EXISTS invoice;
+DROP TABLE IF EXISTS client;
+DROP TABLE IF EXISTS discount;
+DROP TABLE IF EXISTS type;
+DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS category;
+/*CREATE*/
 CREATE TABLE IF NOT EXISTS category (
     "id" SERIAL PRIMARY KEY,
     "name" VARCHAR(100) NOT NULL,
-    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE IF NOT EXISTS product (
     "id" SERIAL PRIMARY KEY,
-    "categoryId" INT,
+    "category_id" INT,
     "name" VARCHAR(100) NOT NULL,
-    "price" NUMERIC NOT NULL,
-    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_product_category FOREIGN KEY(categoryId) REFERENCES category(id)
+    "price" DECIMAL NOT NULL,
+    "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_product_category FOREIGN KEY(category_id) REFERENCES category(id)
 );
 CREATE TABLE IF NOT EXISTS type (
     "id" SERIAL PRIMARY KEY,
     "name" VARCHAR(100) NOT NULL,
-    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE IF NOT EXISTS discount (
     "id" SERIAL PRIMARY KEY,
-    "typeId" INT,
-    "percent" NUMERIC NOT NULL,
-    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_discount_type FOREIGN KEY(typeId) REFERENCES type(id)
+    "type_id" INT,
+    "percent" DECIMAL NOT NULL,
+    "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_discount_type FOREIGN KEY(type_id) REFERENCES type(id)
 );
 CREATE TABLE IF NOT EXISTS client (
     "id" SERIAL PRIMARY KEY,
-    "typeId" INT,
+    "type_id" INT,
     "name" VARCHAR(255) NOT NULL,
-    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_client_type FOREIGN KEY(typeId) REFERENCES type(id)
+    "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_client_type FOREIGN KEY(type_id) REFERENCES type(id)
 );
 CREATE TABLE IF NOT EXISTS invoice (
     "id" SERIAL PRIMARY KEY,
-    "clientId" INT,
-    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_invoice_client FOREIGN KEY(clientId) REFERENCES client(id)
+    "client_id" INT,
+    "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_invoice_client FOREIGN KEY(client_id) REFERENCES client(id)
 );
 CREATE TABLE IF NOT EXISTS invoice_detail (
     "id" SERIAL PRIMARY KEY,
-    "invoiceId" INT,
-    "discountId" INT,
-    "productId" INT,
+    "invoice_id" INT,
+    "discount_id" INT,
+    "product_id" INT,
     "quantity" INT,
-    "price" NUMERIC NOT NULL,
-    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_detail_invoice FOREIGN KEY(invoiceId) REFERENCES invoice(id),
-    CONSTRAINT fk_detail_discount FOREIGN KEY(discountId) REFERENCES discount(id),
-    CONSTRAINT fk_detail_product FOREIGN KEY(productId) REFERENCES product(id)
+    "price" DECIMAL NOT NULL,
+    "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_detail_invoice FOREIGN KEY(invoice_id) REFERENCES invoice(id),
+    CONSTRAINT fk_detail_discount FOREIGN KEY(discount_id) REFERENCES discount(id),
+    CONSTRAINT fk_detail_product FOREIGN KEY(product_id) REFERENCES product(id)
 );
