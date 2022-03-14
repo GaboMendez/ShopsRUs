@@ -16,8 +16,9 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to ShopsRUs application.' });
 });
+
 require('./app/routes/category.routes')(app);
-//require('./app/routes/type.routes')(app);
+require('./app/routes/type.routes')(app);
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

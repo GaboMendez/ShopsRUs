@@ -1,127 +1,106 @@
-const db = require('../models');
-const Type = db.type;
-const Op = db.Sequelize.Op;
+const Type = require('../models/type.model.js');
 
 // Create and Save a new Type
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.name) {
+  if (!req.body) {
     res.status(400).send({
       message: 'Content can not be empty!',
     });
-    return;
   }
   // Create a Type
-  const type = {
+  const type = new Type({
     name: req.body.name,
-  };
+  });
   // Save Type in the database
-  Type.create(type)
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
+  Type.create(type, (err, data) => {
+    if (err)
       res.status(500).send({
         message: err.message || 'Some error occurred while creating the Type.',
       });
-    });
+    else res.send(data);
+  });
 };
 
 // Retrieve all Types from the database.
 exports.findAll = (req, res) => {
   const name = req.query.name;
-  var condition = name ? { name: { [Op.iLike]: `%${name}%` } } : null;
-  Type.findAll({ where: condition })
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
+  Type.getAll(name, (err, data) => {
+    if (err)
       res.status(500).send({
-        message: err.message || 'Some error occurred while retrieving Types.',
+        message:
+          err.message || 'Some error occurred while retrieving tutorials.',
       });
-    });
+    else res.send(data);
+  });
 };
 
 // Find a single Type with an id
 exports.findOne = (req, res) => {
-  const id = req.params.id;
-  Type.findByPk(id)
-    .then((data) => {
-      if (data) {
-        res.send(data);
-      } else {
+  Type.findById(req.params.id, (err, data) => {
+    if (err) {
+      if (err.kind === 'not_found') {
         res.status(404).send({
-          message: `Cannot find Type with id=${id}.`,
+          message: `Not found Type with id ${req.params.id}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: 'Error retrieving Type with id ' + req.params.id,
         });
       }
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: 'Error retrieving Type with id=' + id,
-      });
-    });
+    } else res.send(data);
+  });
 };
 
 // Update a Type by the id in the request
 exports.update = (req, res) => {
-  const id = req.params.id;
-  Type.update(req.body, {
-    where: { id: id },
-  })
-    .then((num) => {
-      if (num == 1) {
-        res.send({
-          message: 'Type was updated successfully.',
+  // Validate Request
+  if (!req.body) {
+    res.status(400).send({
+      message: 'Content can not be empty!',
+    });
+  }
+  console.log(req.body);
+  Type.updateById(req.params.id, new Type(req.body), (err, data) => {
+    if (err) {
+      if (err.kind === 'not_found') {
+        res.status(404).send({
+          message: `Not found Type with id ${req.params.id}.`,
         });
       } else {
-        res.send({
-          message: `Cannot update Type with id=${id}. Maybe Type was not found or req.body is empty!`,
+        res.status(500).send({
+          message: 'Error updating Type with id ' + req.params.id,
         });
       }
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: 'Error updating Type with id=' + id,
-      });
-    });
+    } else res.send(data);
+  });
 };
 
 // Delete a Type with the specified id in the request
 exports.delete = (req, res) => {
-  const id = req.params.id;
-  Type.destroy({
-    where: { id: id },
-  })
-    .then((num) => {
-      if (num == 1) {
-        res.send({
-          message: 'Type was deleted successfully!',
+  Type.remove(req.params.id, (err, data) => {
+    if (err) {
+      if (err.kind === 'not_found') {
+        res.status(404).send({
+          message: `Not found Type with id ${req.params.id}.`,
         });
       } else {
-        res.send({
-          message: `Cannot delete Type with id=${id}. Maybe Type was not found!`,
+        res.status(500).send({
+          message: 'Could not delete Type with id ' + req.params.id,
         });
       }
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: 'Could not delete Type with id=' + id,
-      });
-    });
+    } else res.send({ message: `Type was deleted successfully!` });
+  });
 };
 
 // Delete all Types from the database.
 exports.deleteAll = (req, res) => {
-  Type.destroy({
-    where: {},
-    truncate: false,
-  })
-    .then((nums) => {
-      res.send({ message: `${nums} Types were deleted successfully!` });
-    })
-    .catch((err) => {
+  Type.removeAll((err, data) => {
+    if (err)
       res.status(500).send({
-        message: err.message || 'Some error occurred while removing all Types.',
+        message:
+          err.message || 'Some error occurred while removing all tutorials.',
       });
-    });
+    else res.send({ message: `All Tutorials were deleted successfully!` });
+  });
 };

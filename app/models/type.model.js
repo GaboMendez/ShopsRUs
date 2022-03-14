@@ -1,8 +1,110 @@
-module.exports = (sequelize, Sequelize) => {
-  const Type = sequelize.define('type', {
-    name: {
-      type: Sequelize.STRING,
-    },
-  });
-  return Type;
+const client = require('./db');
+
+// constructor
+const Type = function (type) {
+  this.name = type.name;
 };
+
+Type.create = (newCategory, result) => {
+  client.query(
+    'INSERT INTO type (name) VALUES ($1) RETURNING id',
+    [newCategory.name],
+    (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result(err, null);
+        return;
+      }
+      const { rows, fields } = res;
+      console.log('created Type: ', { id: rows[0].id, ...newCategory });
+      result(null, { id: rows[0].id, ...newCategory });
+    }
+  );
+};
+
+Type.findById = (id, result) => {
+  client.query(`SELECT * FROM type WHERE id = ${id}`, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result(err, null);
+      return;
+    }
+    const { rows, fields } = res;
+    if (rows.length) {
+      console.log('found Type: ', rows[0]);
+      result(null, rows[0]);
+      return;
+    }
+    // not found Type with the id
+    result({ kind: 'not_found' }, null);
+  });
+};
+
+Type.getAll = (title, result) => {
+  let query = 'SELECT * FROM type';
+  if (title) {
+    query += ` WHERE title LIKE '%${title}%'`;
+  }
+  client.query(query, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result(null, err);
+      return;
+    }
+    const { rows, fields } = res;
+    console.log('types: ', rows);
+    result(null, rows);
+  });
+};
+
+Type.updateById = (id, type, result) => {
+  client.query(
+    'UPDATE type SET name = ($1) WHERE id = ($2)',
+    [type.name, id],
+    (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result(null, err);
+        return;
+      }
+      if (res.affectedRows == 0) {
+        // not found Type with the id
+        result({ kind: 'not_found' }, null);
+        return;
+      }
+      console.log('updated type: ', { id: id, ...type });
+      result(null, { id: id, ...type });
+    }
+  );
+};
+
+Type.remove = (id, result) => {
+  client.query(`DELETE FROM type WHERE id = ${id}`, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result(null, err);
+      return;
+    }
+    if (res.affectedRows == 0) {
+      // not found Type with the id
+      result({ kind: 'not_found' }, null);
+      return;
+    }
+    console.log('deleted Type with id: ', id);
+    result(null, res);
+  });
+};
+
+Type.removeAll = (result) => {
+  client.query('DELETE FROM type', (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result(null, err);
+      return;
+    }
+    console.log(`deleted ${res.affectedRows} types`);
+    result(null, res);
+  });
+};
+
+module.exports = Type;
