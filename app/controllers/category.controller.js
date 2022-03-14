@@ -46,7 +46,7 @@ exports.findOne = (req, res) => {
         });
       } else {
         res.status(500).send({
-          message: 'Error retrieving Category with id ' + req.params.id,
+          message: `Error retrieving Category with id ${req.params.id}, ${err}`,
         });
       }
     } else res.send(data);
@@ -61,7 +61,6 @@ exports.update = (req, res) => {
       message: 'Content can not be empty!',
     });
   }
-  console.log(req.body);
   Category.updateById(req.params.id, new Category(req.body), (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
@@ -70,7 +69,7 @@ exports.update = (req, res) => {
         });
       } else {
         res.status(500).send({
-          message: 'Error updating Category with id ' + req.params.id,
+          message: `Error updating Category with id ${req.params.id}, ${err}`,
         });
       }
     } else res.send(data);

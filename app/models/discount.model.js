@@ -66,10 +66,10 @@ Discount.getAll = (typeId, typeName, result) => {
   });
 };
 
-Discount.updateById = (id, discount, result) => {
+Discount.updateById = (id, updateDiscount, result) => {
   client.query(
     'UPDATE discount SET percent = ($1), type_id = ($2) WHERE id = ($3)',
-    [discount.percent, discount.typeId, id],
+    [updateDiscount.percent, updateDiscount.typeId, id],
     (err, res) => {
       if (err) {
         console.log('error: ', err);
@@ -81,8 +81,8 @@ Discount.updateById = (id, discount, result) => {
         result({ kind: 'not_found' }, null);
         return;
       }
-      console.log('updated discount: ', { id: id, ...discount });
-      result(null, { id: id, ...discount });
+      console.log('updated discount: ', { id: id, ...updateDiscount });
+      result(null, { id: id, ...updateDiscount });
     }
   );
 };

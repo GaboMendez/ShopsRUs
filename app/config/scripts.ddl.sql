@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS category (
 );
 CREATE TABLE IF NOT EXISTS product (
     "id" SERIAL PRIMARY KEY,
-    "category_id" INT,
+    "category_id" INT NOT NULL,
     "name" VARCHAR(100) NOT NULL,
     "price" DECIMAL NOT NULL,
     "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,

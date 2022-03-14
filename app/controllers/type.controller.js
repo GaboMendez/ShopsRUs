@@ -44,7 +44,7 @@ exports.findOne = (req, res) => {
         });
       } else {
         res.status(500).send({
-          message: 'Error retrieving Type with id ' + req.params.id,
+          message: `Error retrieving Type with id ${req.params.id}, ${err}`,
         });
       }
     } else res.send(data);
@@ -59,7 +59,6 @@ exports.update = (req, res) => {
       message: 'Content can not be empty!',
     });
   }
-  console.log(req.body);
   Type.updateById(req.params.id, new Type(req.body), (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
@@ -68,7 +67,7 @@ exports.update = (req, res) => {
         });
       } else {
         res.status(500).send({
-          message: 'Error updating Type with id ' + req.params.id,
+          message: `Error updating Type with id ${req.params.id}, ${err}`,
         });
       }
     } else res.send(data);

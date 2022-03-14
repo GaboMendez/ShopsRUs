@@ -57,10 +57,10 @@ Category.getAll = (name, result) => {
   });
 };
 
-Category.updateById = (id, category, result) => {
+Category.updateById = (id, updateCategory, result) => {
   client.query(
     'UPDATE category SET name = ($1) WHERE id = ($2)',
-    [category.name, id],
+    [updateCategory.name, id],
     (err, res) => {
       if (err) {
         console.log('error: ', err);
@@ -72,8 +72,8 @@ Category.updateById = (id, category, result) => {
         result({ kind: 'not_found' }, null);
         return;
       }
-      console.log('updated category: ', { id: id, ...category });
-      result(null, { id: id, ...category });
+      console.log('updated category: ', { id: id, ...updateCategory });
+      result(null, { id: id, ...updateCategory });
     }
   );
 };

@@ -54,7 +54,7 @@ exports.findOne = (req, res) => {
         });
       } else {
         res.status(500).send({
-          message: 'Error retrieving Discount with id ' + req.params.id,
+          message: `Error retrieving Discount with id ${req.params.id}, ${err}`,
         });
       }
     } else res.send(data);
@@ -69,7 +69,6 @@ exports.update = (req, res) => {
       message: 'Content can not be empty!',
     });
   }
-  console.log(req.body);
   Discount.updateById(req.params.id, new Discount(req.body), (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
@@ -78,7 +77,7 @@ exports.update = (req, res) => {
         });
       } else {
         res.status(500).send({
-          message: 'Error updating Discount with id ' + req.params.id,
+          message: `Error updating Discount with id ${req.params.id}, ${err}`,
         });
       }
     } else res.send(data);

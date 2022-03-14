@@ -57,10 +57,10 @@ Type.getAll = (name, result) => {
   });
 };
 
-Type.updateById = (id, type, result) => {
+Type.updateById = (id, updateType, result) => {
   client.query(
     'UPDATE type SET name = ($1) WHERE id = ($2)',
-    [type.name, id],
+    [updateType.name, id],
     (err, res) => {
       if (err) {
         console.log('error: ', err);
@@ -72,8 +72,8 @@ Type.updateById = (id, type, result) => {
         result({ kind: 'not_found' }, null);
         return;
       }
-      console.log('updated type: ', { id: id, ...type });
-      result(null, { id: id, ...type });
+      console.log('updated type: ', { id: id, ...updateType });
+      result(null, { id: id, ...updateType });
     }
   );
 };
