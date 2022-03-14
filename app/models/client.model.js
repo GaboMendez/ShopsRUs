@@ -24,7 +24,10 @@ Client.create = (newClient, result) => {
 };
 
 Client.findById = (id, result) => {
-  client.query(`SELECT * FROM client WHERE id = ${id}`, (err, res) => {
+  // Left join to include clients without type...
+  const sql = `SELECT client.id, client.name, type.name client_type, client.created_at 
+                 FROM client LEFT JOIN type ON client.type_id = type.id WHERE client.id = ${id}`;
+  client.query(sql, (err, res) => {
     if (err) {
       console.log('error: ', err);
       result(err, null);
@@ -42,11 +45,13 @@ Client.findById = (id, result) => {
 };
 
 Client.getAll = (name, result) => {
-  let query = 'SELECT * FROM client';
+  // Left join to include clients without type...
+  let sql = `SELECT client.id, client.name, type.name client_type, client.created_at 
+               FROM client LEFT JOIN type ON client.type_id = type.id`;
   if (name) {
-    query += ` WHERE LOWER(name) LIKE '%${name.toLowerCase()}%'`;
+    sql += ` WHERE LOWER(client.name) LIKE '%${name.toLowerCase()}%'`;
   }
-  client.query(query, (err, res) => {
+  client.query(sql, (err, res) => {
     if (err) {
       console.log('error: ', err);
       result(null, err);
@@ -58,10 +63,10 @@ Client.getAll = (name, result) => {
   });
 };
 
-Client.updateById = (id, client, result) => {
+Client.updateById = (id, updateClient, result) => {
   client.query(
     'UPDATE client SET name = ($1), type_id = ($2) WHERE id = ($3)',
-    [client.name, client.typeId, id],
+    [updateClient.name, updateClient.typeId, id],
     (err, res) => {
       if (err) {
         console.log('error: ', err);
@@ -73,8 +78,8 @@ Client.updateById = (id, client, result) => {
         result({ kind: 'not_found' }, null);
         return;
       }
-      console.log('updated client: ', { id: id, ...client });
-      result(null, { id: id, ...client });
+      console.log('updated client: ', { id: id, ...updateClient });
+      result(null, { id: id, ...updateClient });
     }
   );
 };
