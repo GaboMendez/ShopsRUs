@@ -40,10 +40,10 @@ Type.findById = (id, result) => {
   });
 };
 
-Type.getAll = (title, result) => {
+Type.getAll = (name, result) => {
   let query = 'SELECT * FROM type';
-  if (title) {
-    query += ` WHERE title LIKE '%${title}%'`;
+  if (name) {
+    query += ` WHERE LOWER(name) LIKE '%${name.toLowerCase()}%'`;
   }
   client.query(query, (err, res) => {
     if (err) {

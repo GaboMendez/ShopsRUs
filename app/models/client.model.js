@@ -1,14 +1,15 @@
 const client = require('./db');
 
 // constructor
-const Category = function (category) {
-  this.name = category.name;
+const Client = function (client) {
+  this.name = client.name;
+  this.typeId = client.typeId;
 };
 
-Category.create = (newCategory, result) => {
+Client.create = (newClient, result) => {
   client.query(
-    'INSERT INTO category (name) VALUES ($1) RETURNING id',
-    [newCategory.name],
+    'INSERT INTO client (name, type_id) VALUES ($1, $2) RETURNING id',
+    [newClient.name, newClient.typeId],
     (err, res) => {
       if (err) {
         console.log('error: ', err);
@@ -16,14 +17,14 @@ Category.create = (newCategory, result) => {
         return;
       }
       const { rows, fields } = res;
-      console.log('created Category: ', { id: rows[0].id, ...newCategory });
-      result(null, { id: rows[0].id, ...newCategory });
+      console.log('created Client: ', { id: rows[0].id, ...newClient });
+      result(null, { id: rows[0].id, ...newClient });
     }
   );
 };
 
-Category.findById = (id, result) => {
-  client.query(`SELECT * FROM category WHERE id = ${id}`, (err, res) => {
+Client.findById = (id, result) => {
+  client.query(`SELECT * FROM client WHERE id = ${id}`, (err, res) => {
     if (err) {
       console.log('error: ', err);
       result(err, null);
@@ -31,17 +32,17 @@ Category.findById = (id, result) => {
     }
     const { rows, fields } = res;
     if (rows.length) {
-      console.log('found Category: ', rows[0]);
+      console.log('found Client: ', rows[0]);
       result(null, rows[0]);
       return;
     }
-    // not found Category with the id
+    // not found Client with the id
     result({ kind: 'not_found' }, null);
   });
 };
 
-Category.getAll = (name, result) => {
-  let query = 'SELECT * FROM category';
+Client.getAll = (name, result) => {
+  let query = 'SELECT * FROM client';
   if (name) {
     query += ` WHERE LOWER(name) LIKE '%${name.toLowerCase()}%'`;
   }
@@ -52,15 +53,15 @@ Category.getAll = (name, result) => {
       return;
     }
     const { rows, fields } = res;
-    console.log('categories: ', rows);
+    console.log('clients: ', rows);
     result(null, rows);
   });
 };
 
-Category.updateById = (id, category, result) => {
+Client.updateById = (id, client, result) => {
   client.query(
-    'UPDATE category SET name = ($1) WHERE id = ($2)',
-    [category.name, id],
+    'UPDATE client SET name = ($1), type_id = ($2) WHERE id = ($3)',
+    [client.name, client.typeId, id],
     (err, res) => {
       if (err) {
         console.log('error: ', err);
@@ -68,43 +69,43 @@ Category.updateById = (id, category, result) => {
         return;
       }
       if (res.affectedRows == 0) {
-        // not found Category with the id
+        // not found Client with the id
         result({ kind: 'not_found' }, null);
         return;
       }
-      console.log('updated category: ', { id: id, ...category });
-      result(null, { id: id, ...category });
+      console.log('updated client: ', { id: id, ...client });
+      result(null, { id: id, ...client });
     }
   );
 };
 
-Category.remove = (id, result) => {
-  client.query(`DELETE FROM category WHERE id = ${id}`, (err, res) => {
+Client.remove = (id, result) => {
+  client.query(`DELETE FROM client WHERE id = ${id}`, (err, res) => {
     if (err) {
       console.log('error: ', err);
       result(null, err);
       return;
     }
     if (res.affectedRows == 0) {
-      // not found Category with the id
+      // not found Client with the id
       result({ kind: 'not_found' }, null);
       return;
     }
-    console.log('deleted Category with id: ', id);
+    console.log('deleted Client with id: ', id);
     result(null, res);
   });
 };
 
-Category.removeAll = (result) => {
-  client.query('DELETE FROM category', (err, res) => {
+Client.removeAll = (result) => {
+  client.query('DELETE FROM client', (err, res) => {
     if (err) {
       console.log('error: ', err);
       result(null, err);
       return;
     }
-    console.log(`deleted ${res.affectedRows} categories`);
+    console.log(`deleted ${res.affectedRows} clients`);
     result(null, res);
   });
 };
 
-module.exports = Category;
+module.exports = Client;
