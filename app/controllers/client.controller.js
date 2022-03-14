@@ -3,10 +3,11 @@ const Client = require('../models/client.model.js');
 // Create and Save a new Client
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body) {
+  if (Object.keys(req.body).length === 0) {
     res.status(400).send({
       message: 'Content can not be empty!',
     });
+    return;
   }
   // Create a Client
   const client = new Client({
@@ -56,10 +57,11 @@ exports.findOne = (req, res) => {
 // Update a Client by the id in the request
 exports.update = (req, res) => {
   // Validate Request
-  if (!req.body) {
+  if (Object.keys(req.body).length === 0) {
     res.status(400).send({
       message: 'Content can not be empty!',
     });
+    return;
   }
   Client.updateById(req.params.id, new Client(req.body), (err, data) => {
     if (err) {

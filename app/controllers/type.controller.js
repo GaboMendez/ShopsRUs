@@ -3,10 +3,11 @@ const Type = require('../models/type.model.js');
 // Create and Save a new Type
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body) {
+  if (Object.keys(req.body).length === 0) {
     res.status(400).send({
       message: 'Content can not be empty!',
     });
+    return;
   }
   // Create a Type
   const type = new Type({
@@ -54,10 +55,11 @@ exports.findOne = (req, res) => {
 // Update a Type by the id in the request
 exports.update = (req, res) => {
   // Validate Request
-  if (!req.body) {
+  if (Object.keys(req.body).length === 0) {
     res.status(400).send({
       message: 'Content can not be empty!',
     });
+    return;
   }
   Type.updateById(req.params.id, new Type(req.body), (err, data) => {
     if (err) {

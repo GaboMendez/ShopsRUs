@@ -3,10 +3,11 @@ const Discount = require('../models/discount.model.js');
 // Create and Save a new Discount
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body) {
+  if (Object.keys(req.body).length === 0) {
     res.status(400).send({
       message: 'Content can not be empty!',
     });
+    return;
   }
   // Create a Discount
   const discount = new Discount({
@@ -64,10 +65,11 @@ exports.findOne = (req, res) => {
 // Update a Discount by the id in the request
 exports.update = (req, res) => {
   // Validate Request
-  if (!req.body) {
+  if (Object.keys(req.body).length === 0) {
     res.status(400).send({
       message: 'Content can not be empty!',
     });
+    return;
   }
   Discount.updateById(req.params.id, new Discount(req.body), (err, data) => {
     if (err) {

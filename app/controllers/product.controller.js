@@ -3,10 +3,11 @@ const Product = require('../models/product.model.js');
 // Create and Save a new Product
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body) {
+  if (Object.keys(req.body).length === 0) {
     res.status(400).send({
       message: 'Content can not be empty!',
     });
+    return;
   }
   // Create a Product
   const product = new Product({
@@ -73,10 +74,11 @@ exports.findOne = (req, res) => {
 // Update a Product by the id in the request
 exports.update = (req, res) => {
   // Validate Request
-  if (!req.body) {
+  if (Object.keys(req.body).length === 0) {
     res.status(400).send({
       message: 'Content can not be empty!',
     });
+    return;
   }
   Product.updateById(req.params.id, new Product(req.body), (err, data) => {
     if (err) {
