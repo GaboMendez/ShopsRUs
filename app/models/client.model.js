@@ -73,7 +73,7 @@ Client.updateById = (id, updateClient, result) => {
         result(err, null);
         return;
       }
-      if (res.affectedRows == 0) {
+      if (res.rowCount == 0) {
         // not found Client with the id
         result({ kind: 'not_found' }, null);
         return;
@@ -91,7 +91,7 @@ Client.remove = (id, result) => {
       result(err, null);
       return;
     }
-    if (res.affectedRows == 0) {
+    if (res.rowCount == 0) {
       // not found Client with the id
       result({ kind: 'not_found' }, null);
       return;
@@ -108,7 +108,7 @@ Client.removeAll = (result) => {
       result(err, null);
       return;
     }
-    console.log(`deleted ${res.affectedRows} clients`);
+    console.log(`deleted ${res.rowCount} clients`);
     result(null, res);
   });
 };

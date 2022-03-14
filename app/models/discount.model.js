@@ -76,7 +76,7 @@ Discount.updateById = (id, updateDiscount, result) => {
         result(err, null);
         return;
       }
-      if (res.affectedRows == 0) {
+      if (res.rowCount == 0) {
         // not found Discount with the id
         result({ kind: 'not_found' }, null);
         return;
@@ -94,7 +94,7 @@ Discount.remove = (id, result) => {
       result(err, null);
       return;
     }
-    if (res.affectedRows == 0) {
+    if (res.rowCount == 0) {
       // not found Discount with the id
       result({ kind: 'not_found' }, null);
       return;
@@ -111,7 +111,7 @@ Discount.removeAll = (result) => {
       result(err, null);
       return;
     }
-    console.log(`deleted ${res.affectedRows} discounts`);
+    console.log(`deleted ${res.rowCount} discounts`);
     result(null, res);
   });
 };

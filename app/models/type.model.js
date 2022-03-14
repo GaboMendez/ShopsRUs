@@ -67,7 +67,7 @@ Type.updateById = (id, updateType, result) => {
         result(err, null);
         return;
       }
-      if (res.affectedRows == 0) {
+      if (res.rowCount == 0) {
         // not found Type with the id
         result({ kind: 'not_found' }, null);
         return;
@@ -85,7 +85,7 @@ Type.remove = (id, result) => {
       result(err, null);
       return;
     }
-    if (res.affectedRows == 0) {
+    if (res.rowCount == 0) {
       // not found Type with the id
       result({ kind: 'not_found' }, null);
       return;
@@ -102,7 +102,7 @@ Type.removeAll = (result) => {
       result(err, null);
       return;
     }
-    console.log(`deleted ${res.affectedRows} types`);
+    console.log(`deleted ${res.rowCount} types`);
     result(null, res);
   });
 };

@@ -24,9 +24,9 @@ exports.create = (req, res) => {
   Invoice.create(invoice, (err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message || 'Some error occurred while creating the Invoice.',
+        message: err.message || 'Some error occurred while retrieving clients.',
       });
+    else res.send(data);
   });
 };
 

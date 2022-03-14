@@ -81,7 +81,7 @@ Product.updateById = (id, updateProduct, result) => {
       result(err, null);
       return;
     }
-    if (res.affectedRows == 0) {
+    if (res.rowCount == 0) {
       // not found Product with the id
       result({ kind: 'not_found' }, null);
       return;
@@ -98,7 +98,7 @@ Product.remove = (id, result) => {
       result(err, null);
       return;
     }
-    if (res.affectedRows == 0) {
+    if (res.rowCount == 0) {
       // not found Product with the id
       result({ kind: 'not_found' }, null);
       return;
@@ -115,7 +115,7 @@ Product.removeAll = (result) => {
       result(err, null);
       return;
     }
-    console.log(`deleted ${res.affectedRows} products`);
+    console.log(`deleted ${res.rowCount} products`);
     result(null, res);
   });
 };

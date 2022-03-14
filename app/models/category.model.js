@@ -67,7 +67,7 @@ Category.updateById = (id, updateCategory, result) => {
         result(err, null);
         return;
       }
-      if (res.affectedRows == 0) {
+      if (res.rowCount == 0) {
         // not found Category with the id
         result({ kind: 'not_found' }, null);
         return;
@@ -85,7 +85,7 @@ Category.remove = (id, result) => {
       result(err, null);
       return;
     }
-    if (res.affectedRows == 0) {
+    if (res.rowCount == 0) {
       // not found Category with the id
       result({ kind: 'not_found' }, null);
       return;
@@ -102,7 +102,7 @@ Category.removeAll = (result) => {
       result(err, null);
       return;
     }
-    console.log(`deleted ${res.affectedRows} categories`);
+    console.log(`deleted ${res.rowCount} categories`);
     result(null, res);
   });
 };

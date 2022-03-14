@@ -49,7 +49,7 @@ Invoice.remove = (id, result) => {
         result(err, null);
         return;
       }
-      if (res.affectedRows == 0) {
+      if (res.rowCount == 0) {
         // not found Invoice with the id
         result({ kind: 'not_found' }, null);
         return;
@@ -64,7 +64,7 @@ Invoice.remove = (id, result) => {
       result(err, null);
       return;
     }
-    if (res.affectedRows == 0) {
+    if (res.rowCount == 0) {
       // not found Invoice with the id
       result({ kind: 'not_found' }, null);
       return;
@@ -80,8 +80,7 @@ Invoice.removeAll = (result) => {
       console.log('error: ', err);
       return;
     }
-    console.log('res', res);
-    console.log(`deleted ${res.affectedRows} invoice details`);
+    console.log(`deleted ${res.rowCount} invoice details`);
   });
   client.query('DELETE FROM invoice', (err, res) => {
     if (err) {
@@ -89,8 +88,7 @@ Invoice.removeAll = (result) => {
       result(err, null);
       return;
     }
-    console.log('res', res);
-    console.log(`deleted ${res.affectedRows} invoices`);
+    console.log(`deleted ${res.rowCount} invoices`);
     result(null, res);
   });
 };
