@@ -30,8 +30,7 @@ exports.findAll = (req, res) => {
   Client.getAll(name, (err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message || 'Some error occurred while retrieving tutorials.',
+        message: err.message || 'Some error occurred while retrieving clients.',
       });
     else res.send(data);
   });
@@ -101,8 +100,8 @@ exports.deleteAll = (req, res) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || 'Some error occurred while removing all tutorials.',
+          err.message || 'Some error occurred while removing all clients.',
       });
-    else res.send({ message: `All Tutorials were deleted successfully!` });
+    else res.send({ message: `All Clients were deleted successfully!` });
   });
 };

@@ -54,7 +54,7 @@ Client.getAll = (name, result) => {
   client.query(sql, (err, res) => {
     if (err) {
       console.log('error: ', err);
-      result(null, err);
+      result(err, null);
       return;
     }
     const { rows, fields } = res;
@@ -70,7 +70,7 @@ Client.updateById = (id, updateClient, result) => {
     (err, res) => {
       if (err) {
         console.log('error: ', err);
-        result(null, err);
+        result(err, null);
         return;
       }
       if (res.affectedRows == 0) {
@@ -88,7 +88,7 @@ Client.remove = (id, result) => {
   client.query(`DELETE FROM client WHERE id = ${id}`, (err, res) => {
     if (err) {
       console.log('error: ', err);
-      result(null, err);
+      result(err, null);
       return;
     }
     if (res.affectedRows == 0) {
@@ -105,7 +105,7 @@ Client.removeAll = (result) => {
   client.query('DELETE FROM client', (err, res) => {
     if (err) {
       console.log('error: ', err);
-      result(null, err);
+      result(err, null);
       return;
     }
     console.log(`deleted ${res.affectedRows} clients`);

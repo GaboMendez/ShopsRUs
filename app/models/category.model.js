@@ -48,7 +48,7 @@ Category.getAll = (name, result) => {
   client.query(query, (err, res) => {
     if (err) {
       console.log('error: ', err);
-      result(null, err);
+      result(err, null);
       return;
     }
     const { rows, fields } = res;
@@ -64,7 +64,7 @@ Category.updateById = (id, category, result) => {
     (err, res) => {
       if (err) {
         console.log('error: ', err);
-        result(null, err);
+        result(err, null);
         return;
       }
       if (res.affectedRows == 0) {
@@ -82,7 +82,7 @@ Category.remove = (id, result) => {
   client.query(`DELETE FROM category WHERE id = ${id}`, (err, res) => {
     if (err) {
       console.log('error: ', err);
-      result(null, err);
+      result(err, null);
       return;
     }
     if (res.affectedRows == 0) {
@@ -99,7 +99,7 @@ Category.removeAll = (result) => {
   client.query('DELETE FROM category', (err, res) => {
     if (err) {
       console.log('error: ', err);
-      result(null, err);
+      result(err, null);
       return;
     }
     console.log(`deleted ${res.affectedRows} categories`);

@@ -30,7 +30,7 @@ exports.findAll = (req, res) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || 'Some error occurred while retrieving tutorials.',
+          err.message || 'Some error occurred while retrieving categories.',
       });
     else res.send(data);
   });
@@ -100,8 +100,8 @@ exports.deleteAll = (req, res) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || 'Some error occurred while removing all tutorials.',
+          err.message || 'Some error occurred while removing all categories.',
       });
-    else res.send({ message: `All Tutorials were deleted successfully!` });
+    else res.send({ message: `All Categories were deleted successfully!` });
   });
 };

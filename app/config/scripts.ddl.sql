@@ -27,9 +27,10 @@ CREATE TABLE IF NOT EXISTS type (
 );
 CREATE TABLE IF NOT EXISTS discount (
     "id" SERIAL PRIMARY KEY,
-    "type_id" INT,
+    "type_id" INT NOT NULL,
     "percent" DECIMAL NOT NULL,
     "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(type_id),
     CONSTRAINT fk_discount_type FOREIGN KEY(type_id) REFERENCES type(id)
 );
 CREATE TABLE IF NOT EXISTS client (

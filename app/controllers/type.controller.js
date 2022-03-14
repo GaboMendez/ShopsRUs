@@ -28,8 +28,7 @@ exports.findAll = (req, res) => {
   Type.getAll(name, (err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message || 'Some error occurred while retrieving tutorials.',
+        message: err.message || 'Some error occurred while retrieving types.',
       });
     else res.send(data);
   });
@@ -98,9 +97,8 @@ exports.deleteAll = (req, res) => {
   Type.removeAll((err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message || 'Some error occurred while removing all tutorials.',
+        message: err.message || 'Some error occurred while removing all types.',
       });
-    else res.send({ message: `All Tutorials were deleted successfully!` });
+    else res.send({ message: `All Types were deleted successfully!` });
   });
 };
