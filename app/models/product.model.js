@@ -69,24 +69,26 @@ Product.getAll = (name, categoryName, categoryId, result) => {
 };
 
 Product.updateById = (id, updateProduct, result) => {
-  client.query(
-    'UPDATE product SET name = ($1), category_id = ($2), price = ($3) WHERE id = ($4)',
-    [updateProduct.name, updateProduct.categoryId, updateProduct.price, id],
-    (err, res) => {
-      if (err) {
-        console.log('error: ', err);
-        result(err, null);
-        return;
-      }
-      if (res.affectedRows == 0) {
-        // not found Product with the id
-        result({ kind: 'not_found' }, null);
-        return;
-      }
-      console.log('updated product: ', { id: id, ...updateProduct });
-      result(null, { id: id, ...updateProduct });
+  const sql = updateProduct.price
+    ? 'UPDATE product SET name = ($1), category_id = ($2), price = ($3) WHERE id = ($4)'
+    : 'UPDATE product SET name = ($1), category_id = ($2) WHERE id = ($3)';
+  const values = updateProduct.price
+    ? [updateProduct.name, updateProduct.categoryId, updateProduct.price, id]
+    : [updateProduct.name, updateProduct.categoryId, id];
+  client.query(sql, values, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result(err, null);
+      return;
     }
-  );
+    if (res.affectedRows == 0) {
+      // not found Product with the id
+      result({ kind: 'not_found' }, null);
+      return;
+    }
+    console.log('updated product: ', { id: id, ...updateProduct });
+    result(null, { id: id, ...updateProduct });
+  });
 };
 
 Product.remove = (id, result) => {
