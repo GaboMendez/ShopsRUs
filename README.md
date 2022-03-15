@@ -27,7 +27,7 @@ A retail store server, developed only the back-end API with NodeJs and ExpressJs
 ## Entity Relationship Diagram
 
 <p aling="left">
-  <img src="https://i.ibb.co/T1tYXpm/ShopsRU.png" width="30%" />
+  <img src="https://i.ibb.co/T1tYXpm/ShopsRU.png" width="60%" />
 </p>
 
 ## Requirements
