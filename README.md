@@ -86,7 +86,7 @@ Clone the repository, open terminal in root and do the following on terminal
 
 ## Configure app
 
-If you want set up locally you can follow these steps, you can also use `Thunder Client`(https://www.thunderclient.com/) to test all the end-points, get the json config in `/app/config/ShopsRU_RestCollection.json` and download it to import the Collection API.
+If you want set up locally you can follow these steps, you can also use [Thunder Client](https://www.thunderclient.com/) to test all the end-points, get the json config in `/app/config/ShopsRU_RestCollection.json` and download it to import the Collection API.
 
 <p aling="left">
   <img src="https://i.ibb.co/wKcCmJL/Rest-Collection.png" width="30%" />
