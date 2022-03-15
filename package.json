@@ -6,11 +6,11 @@
   "repository": "https://github.com/GaboMendez/ShopsRUs.git",
   "author": "GabrielMendez <gabriel.mendez0@hotmail.com>",
   "license": "MIT",
+  "private": true,
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.3",
     "pg": "^8.7.3",
-    "pg-hstore": "^2.3.4",
-    "sequelize": "^6.17.0"
+    "pg-hstore": "^2.3.4"
   }
 }
