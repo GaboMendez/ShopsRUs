@@ -15,6 +15,7 @@ A retail store server, developed only the back-end API with NodeJs and ExpressJs
   - [Install](#install)
   - [Configure app](#configure-app)
   - [Start server by running](#start-server-by-running)
+  - [Features](#features)
 
 ## Requirements
 
@@ -81,7 +82,7 @@ If you want set up locally you can follow these steps, you can also use `Thunder
 Create `/.env` file then edit it with your DB settings. This is an example, so use your information from postgreSQL:
 
 <p aling="left">
-  <img src="https://i.ibb.co/hDL1Fyw/DB-Config.png" width="30%" />
+  <img src="https://i.ibb.co/VTnXPvR/DB-Config.png" width="30%" />
 </p>
   
 After Setting up the database, create database tables running the DDL Scripts in `/app/config/scripts.ddl.sql`, its advisable to run the scripts on active DB connection.
@@ -91,3 +92,42 @@ Place seed database, insert data for use-cases by running the DML Scripts in `/a
 ## Start server by running
 
     $ node server.js
+
+If the initialization was successful, you should be able to see the following messages on the console:
+
+    $ Server is running on port 8080.
+    $ Successfully connected to the database.
+
+## Features
+
+Add to Base URL `http://localhost:$SERVER_PORT` (if you use the Collection API this PORT is 8080) above
+
+- Use the following Endpoints --TODO
+
+  `POST /trips` Create a trip
+
+  `GET /trips` Get all trips
+
+  `POST /bookings` Book a seat on a trip
+
+  `GET /bookings` See all of your bookings
+
+  `DELETE /bookings/:bookingId` Delete A Booking
+
+  `PATCH /trips/:tripId` Cancel A Trip (Needs admin priviledges)
+
+  `GET /user/seed` Seed users table with users with admin rights
+
+  `POST /admin/signup` An admin can add new admin (Needs admin priviledges)
+
+  `PUT /user/:id/admin` An admin can give a registered user admin right (Needs admin priviledges)
+
+  `PUT /bookings/:bookingId` Update Booking Seat Number
+
+  `POST /buses` Add a bus (Needs admin priviledges)
+
+  `GET /buses` Get all buses (Needs admin priviledges)
+
+  `GET /trips/origin?origin="origin"` Filter trips by origin
+
+  `GET /trips/destination?destination="destination"` Filter trips by destination
