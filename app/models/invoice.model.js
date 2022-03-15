@@ -22,7 +22,7 @@ Invoice.create = async (newInvoice, result) => {
   try {
     const res = await client.query(
       'INSERT INTO invoice (client_id) VALUES ($1) RETURNING id',
-      [newInvoice.client_id]
+      [newInvoice.clientId]
     );
     const { rows, fields } = res;
     console.log(rows[0]);
@@ -44,19 +44,44 @@ Invoice.create = async (newInvoice, result) => {
     return;
   }
 };
+Invoice.getAll = (result) => {
+  const query = `SELECT invoice.id invoice_id, SUM(invoice_detail.price) total FROM invoice 
+                 INNER JOIN invoice_detail ON invoice.id = invoice_detail.invoice_id
+                 GROUP BY invoice.id`;
 
-Invoice.getAll = (clientName, clientId, result) => {
-  let sql = `SELECT invoice.id, invoice.name, category.name product_category, invoice.price, invoice.created_at 
-               FROM invoice INNER JOIN category ON invoice.category_id = category.id`;
-
-  client.query(sql, (err, res) => {
+  client.query(query, (err, res) => {
     if (err) {
       console.log('error: ', err);
       result(err, null);
       return;
     }
     const { rows, fields } = res;
-    console.log('invoices: ', rows);
+    const newRows = rows.map((row) => {
+      return { invoice_id: row.invoice_id, total: generalDiscount(row.total) };
+    });
+    result(null, newRows);
+  });
+};
+
+Invoice.getAllDetail = (clientName, result) => {
+  let query = `SELECT client.name client_name, product.name product_name, category.name category_name, 
+                    product.price product_price, invoice_detail.quantity, discount.percent, invoice_detail.price total
+               FROM invoice INNER JOIN invoice_detail ON invoice.id = invoice_detail.invoice_id
+               INNER JOIN client ON client.id = invoice.client_id
+               INNER JOIN product ON product.id = invoice_detail.product_id
+               INNER JOIN category ON category.id = product.category_id
+               LEFT JOIN discount ON discount.id = invoice_detail.discount_id`;
+  if (clientName) {
+    query += ` WHERE LOWER(client.name) LIKE '%${clientName.toLowerCase()}%'`;
+  }
+  client.query(query, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result(err, null);
+      return;
+    }
+    const { rows, fields } = res;
+    console.log('invoice details: ', rows);
     result(null, rows);
   });
 };
@@ -67,16 +92,9 @@ Invoice.remove = (id, result) => {
     (err, res) => {
       if (err) {
         console.log('error: ', err);
-        result(err, null);
         return;
       }
-      if (res.rowCount == 0) {
-        // not found Invoice with the id
-        result({ kind: 'not_found' }, null);
-        return;
-      }
-      console.log('deleted all Invoice details with id: ', id);
-      result(null, res);
+      console.log(`deleted ${res.rowCount} invoice details`);
     }
   );
   client.query(`DELETE FROM invoice WHERE id = ${id}`, (err, res) => {
@@ -136,7 +154,7 @@ const getDiscount = async (newInvoice) => {
   const compare_date = new Date();
   compare_date.setFullYear(compare_date.getFullYear() - 2);
   // If Client is not Afiliado or Employee, check if have more than 2 years been client...
-  if (!discount && created_at < compare_date) {
+  if (!discount.id && created_at < compare_date) {
     const { percent_id, percent_value } =
       discountRes.rows.find((row) =>
         row.percent_type.toLowerCase().includes('fidelidad')

@@ -66,9 +66,20 @@ exports.create = (req, res) => {
 
 // Retrieve all Invoices from the database.
 exports.findAll = (req, res) => {
+  Invoice.getAll((err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || 'Some error occurred while retrieving invoices.',
+      });
+    else res.send(data);
+  });
+};
+
+// Retrieve all Invoices Detail from the database.
+exports.findAllDetail = (req, res) => {
   const clientName = req.query.clientName;
-  const clientId = req.query.clientId;
-  Invoice.getAll(clientName, clientId, (err, data) => {
+  Invoice.getAllDetail(clientName, (err, data) => {
     if (err)
       res.status(500).send({
         message:

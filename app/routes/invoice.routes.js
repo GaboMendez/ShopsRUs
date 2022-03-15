@@ -5,6 +5,7 @@ module.exports = (app) => {
   router.post('/', invoices.create);
   // Retrieve all Invoices
   router.get('/', invoices.findAll);
+  router.get('/details', invoices.findAllDetail);
   // Delete a Invoice with id
   router.delete('/:id', invoices.delete);
   // Create a new Invoice
