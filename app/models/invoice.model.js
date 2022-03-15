@@ -46,9 +46,11 @@ Invoice.create = async (newInvoice, result) => {
 };
 
 Invoice.getAll = (invoiceId, result) => {
-  let query = `SELECT invoice.id invoice_id, SUM(invoice_detail.price) total FROM invoice 
-                 INNER JOIN invoice_detail ON invoice.id = invoice_detail.invoice_id
-                 GROUP BY invoice.id`;
+  let query = `SELECT invoice.id invoice_id, SUM(invoice_detail.price) total, client.name client_name FROM invoice 
+               INNER JOIN invoice_detail ON invoice.id = invoice_detail.invoice_id
+               INNER JOIN client ON client.id = invoice.client_id
+               GROUP BY invoice.id, client.name`;
+
   if (invoiceId) {
     query += ` HAVING invoice.id = ${invoiceId}`;
   }
@@ -64,6 +66,7 @@ Invoice.getAll = (invoiceId, result) => {
         return {
           invoice_id: row.invoice_id,
           total: generalDiscount(row.total),
+          client_name: row.client_name,
         };
       });
       result(null, newRows);
@@ -75,8 +78,8 @@ Invoice.getAll = (invoiceId, result) => {
 };
 
 Invoice.getAllDetail = (clientName, result) => {
-  let query = `SELECT client.name client_name, product.name product_name, category.name category_name, 
-                    product.price product_price, invoice_detail.quantity, discount.percent, invoice_detail.price total
+  let query = `SELECT invoice.id invoice_id,client.name client_name, product.name product_name, category.name category_name, 
+                      product.price product_price, invoice_detail.quantity, discount.percent, invoice_detail.price total
                FROM invoice INNER JOIN invoice_detail ON invoice.id = invoice_detail.invoice_id
                INNER JOIN client ON client.id = invoice.client_id
                INNER JOIN product ON product.id = invoice_detail.product_id
