@@ -9,7 +9,7 @@ const client = new Client({
   database: dbConfig.DB,
 });
 
-// open the MySQL connection
+// open the postgreSQL connection
 client.connect((error) => {
   if (error) throw error;
   console.log('Successfully connected to the database.');
