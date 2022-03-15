@@ -25,9 +25,9 @@ Client.create = (newClient, result) => {
 
 Client.findById = (id, result) => {
   // Left join to include clients without type...
-  const sql = `SELECT client.id, client.name, type.name client_type, client.created_at 
+  const query = `SELECT client.id, client.name, type.name client_type, client.created_at 
                  FROM client LEFT JOIN type ON client.type_id = type.id WHERE client.id = ${id}`;
-  client.query(sql, (err, res) => {
+  client.query(query, (err, res) => {
     if (err) {
       console.log('error: ', err);
       result(err, null);
@@ -46,12 +46,12 @@ Client.findById = (id, result) => {
 
 Client.getAll = (name, result) => {
   // Left join to include clients without type...
-  let sql = `SELECT client.id, client.name, type.name client_type, client.created_at 
+  let query = `SELECT client.id, client.name, type.name client_type, client.created_at 
                FROM client LEFT JOIN type ON client.type_id = type.id`;
   if (name) {
-    sql += ` WHERE LOWER(client.name) LIKE '%${name.toLowerCase()}%'`;
+    query += ` WHERE LOWER(client.name) LIKE '%${name.toLowerCase()}%'`;
   }
-  client.query(sql, (err, res) => {
+  client.query(query, (err, res) => {
     if (err) {
       console.log('error: ', err);
       result(err, null);

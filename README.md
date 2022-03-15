@@ -8,6 +8,7 @@ A retail store server, developed only the back-end API with NodeJs and ExpressJs
 
 - [ShopsRUs Server](#shopsrus-server)
   - [Table of Contents](#table-of-contents)
+  - [Entity Relationship Diagram](#entity-relationship-diagram)
   - [Requirements](#requirements)
     - [Node](#node)
     - [PostgreSQL](#postgresql)
@@ -16,6 +17,18 @@ A retail store server, developed only the back-end API with NodeJs and ExpressJs
   - [Configure app](#configure-app)
   - [Start server by running](#start-server-by-running)
   - [Features](#features)
+    - [Category](#category)
+    - [Product](#product)
+    - [Type](#type)
+    - [Client](#client)
+    - [Discount](#discount)
+    - [Invoice](#invoice)
+
+## Entity Relationship Diagram
+
+<p aling="left">
+  <img src="https://i.ibb.co/T1tYXpm/ShopsRU.png" width="30%" />
+</p>
 
 ## Requirements
 
@@ -85,9 +98,9 @@ Create `/.env` file then edit it with your DB settings. This is an example, so u
   <img src="https://i.ibb.co/VTnXPvR/DB-Config.png" width="30%" />
 </p>
   
-After Setting up the database, create database tables running the DDL Scripts in `/app/config/scripts.ddl.sql`, its advisable to run the scripts on active DB connection.
+After Setting up the database, create database tables running the DDL Scripts in `/app/config/scripts.ddl.query`, its advisable to run the scripts on active DB connection.
 
-Place seed database, insert data for use-cases by running the DML Scripts in `/app/config/scripts.dml.sql`, it's advisable to run the scripts on active DB connection.
+Place seed database, insert data for use-cases by running the DML Scripts in `/app/config/scripts.dml.query`, it's advisable to run the scripts on active DB connection.
 
 ## Start server by running
 
@@ -100,34 +113,84 @@ If the initialization was successful, you should be able to see the following me
 
 ## Features
 
-Add to Base URL `http://localhost:$SERVER_PORT` (if you use the Collection API this PORT is 8080) above
+Add to Base URL `http://localhost:$SERVER_PORT/` (if you use the Collection API this PORT is 8080) above
 
-- Use the following Endpoints --TODO
+- Use the following Endpoints
 
-  `POST /trips` Create a trip
+### Category
 
-  `GET /trips` Get all trips
+`POST api/categories` Create a category
 
-  `POST /bookings` Book a seat on a trip
+`GET api/categories or api/categories/:id` Get all categories or single category
 
-  `GET /bookings` See all of your bookings
+`GET api/categories/?name="verduras"` Filter categories by name
 
-  `DELETE /bookings/:bookingId` Delete A Booking
+`PUT api/categories/:id` Update a category
 
-  `PATCH /trips/:tripId` Cancel A Trip (Needs admin priviledges)
+`DELETE api/categories or api/categories/:id` Delete all categories or single category
 
-  `GET /user/seed` Seed users table with users with admin rights
+### Product
 
-  `POST /admin/signup` An admin can add new admin (Needs admin priviledges)
+`POST api/products` Create a product
 
-  `PUT /user/:id/admin` An admin can give a registered user admin right (Needs admin priviledges)
+`GET api/products or api/products/:id` Get all products or single product
 
-  `PUT /bookings/:bookingId` Update Booking Seat Number
+`GET api/products/?name="cereal"` Filter products by name
 
-  `POST /buses` Add a bus (Needs admin priviledges)
+`GET api/products/?categoryId=3` Filter products by categoryId
 
-  `GET /buses` Get all buses (Needs admin priviledges)
+`GET api/products/?categoryName="comestibles"` Filter products by categoryName
 
-  `GET /trips/origin?origin="origin"` Filter trips by origin
+`PUT api/products/:id` Update a product
 
-  `GET /trips/destination?destination="destination"` Filter trips by destination
+`DELETE api/products or api/products/:id` Delete all products or single product
+
+### Type
+
+`POST api/types` Create a type
+
+`GET api/types or api/types/:id` Get all types or single type
+
+`GET api/types/?name="afiliado"` Filter types by name
+
+`PUT api/types/:id` Update a type
+
+`DELETE api/types or api/types/:id` Delete all types or single type
+
+### Client
+
+`POST api/clients` Create a client
+
+`GET api/clients or api/clients/:id` Get all clients or single client
+
+`GET api/clients/?name="gabriel"` Filter clients by name
+
+`PUT api/clients/:id` Update a client
+
+`DELETE api/clients or api/clients/:id` Delete all clients or single client
+
+### Discount
+
+`POST api/discounts` Create a discount
+
+`GET api/discounts or api/discounts/:id` Get all discounts or single discount
+
+`GET api/discounts/?typeId=3` Filter discounts by typeId
+
+`GET api/discounts/?typeName="empleado"` Filter discounts by typeName
+
+`PUT api/discounts/:id` Update a discount
+
+`DELETE api/discounts or api/discounts/:id` Delete all discounts or single discount
+
+### Invoice
+
+`POST api/invoices` Create an invoice
+
+`GET api/invoices or api/invoices/:id` Get all invoices or single invoice
+
+`GET api/invoices/details` Get all invoice details
+
+`GET api/invoices/details?clientName="gabriel"` Filter invoice details by clientName
+
+`DELETE api/invoices or api/invoices/:id` Delete all invoices or single invoice

@@ -3,9 +3,12 @@ module.exports = (app) => {
   var router = require('express').Router();
   // Create a new Invoice
   router.post('/', invoices.create);
+  // Retrieve a all Invoice details with id
+  router.get('/details', invoices.findAllDetail);
   // Retrieve all Invoices
   router.get('/', invoices.findAll);
-  router.get('/details', invoices.findAllDetail);
+  // Retrieve a single Invoice with id
+  router.get('/:id', invoices.findAll);
   // Delete a Invoice with id
   router.delete('/:id', invoices.delete);
   // Create a new Invoice

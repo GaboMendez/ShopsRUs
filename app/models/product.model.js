@@ -25,9 +25,9 @@ Product.create = (newProduct, result) => {
 };
 
 Product.findById = (id, result) => {
-  const sql = `SELECT product.id, product.name, category.name product_category, product.price, product.created_at 
+  const query = `SELECT product.id, product.name, category.name product_category, product.price, product.created_at 
                  FROM product INNER JOIN category ON product.category_id = category.id WHERE product.id = ${id}`;
-  client.query(sql, (err, res) => {
+  client.query(query, (err, res) => {
     if (err) {
       console.log('error: ', err);
       result(err, null);
@@ -45,18 +45,18 @@ Product.findById = (id, result) => {
 };
 
 Product.getAll = (name, categoryName, categoryId, result) => {
-  let sql = `SELECT product.id, product.name, category.name product_category, product.price, product.created_at 
+  let query = `SELECT product.id, product.name, category.name product_category, product.price, product.created_at 
                FROM product INNER JOIN category ON product.category_id = category.id`;
   if (name) {
-    sql += ` WHERE LOWER(product.name) LIKE '%${name.toLowerCase()}%'`;
+    query += ` WHERE LOWER(product.name) LIKE '%${name.toLowerCase()}%'`;
   } else if (categoryName || categoryId) {
-    sql += ` WHERE ${
+    query += ` WHERE ${
       categoryName
         ? `LOWER(category.name) LIKE '%${categoryName.toLowerCase()}%'`
         : `category.id = ${categoryId}`
     }`;
   }
-  client.query(sql, (err, res) => {
+  client.query(query, (err, res) => {
     if (err) {
       console.log('error: ', err);
       result(err, null);
@@ -69,13 +69,13 @@ Product.getAll = (name, categoryName, categoryId, result) => {
 };
 
 Product.updateById = (id, updateProduct, result) => {
-  const sql = updateProduct.price
+  const query = updateProduct.price
     ? 'UPDATE product SET name = ($1), category_id = ($2), price = ($3) WHERE id = ($4)'
     : 'UPDATE product SET name = ($1), category_id = ($2) WHERE id = ($3)';
   const values = updateProduct.price
     ? [updateProduct.name, updateProduct.categoryId, updateProduct.price, id]
     : [updateProduct.name, updateProduct.categoryId, id];
-  client.query(sql, values, (err, res) => {
+  client.query(query, values, (err, res) => {
     if (err) {
       console.log('error: ', err);
       result(err, null);

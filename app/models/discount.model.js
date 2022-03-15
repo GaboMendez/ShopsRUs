@@ -25,9 +25,9 @@ Discount.create = (newDiscount, result) => {
 
 Discount.findById = (id, result) => {
   // Left join to include discounts without type...
-  const sql = `SELECT discount.id, discount.percent, type.name discount_type, discount.created_at 
+  const query = `SELECT discount.id, discount.percent, type.name discount_type, discount.created_at 
                  FROM discount LEFT JOIN type ON discount.type_id = type.id WHERE discount.id = ${id}`;
-  client.query(sql, (err, res) => {
+  client.query(query, (err, res) => {
     if (err) {
       console.log('error: ', err);
       result(err, null);
@@ -46,15 +46,15 @@ Discount.findById = (id, result) => {
 
 Discount.getAll = (typeId, typeName, result) => {
   // Left join to include discounts without type...
-  let sql = `SELECT discount.id, discount.percent, type.name discount_type, discount.created_at 
+  let query = `SELECT discount.id, discount.percent, type.name discount_type, discount.created_at 
                FROM discount LEFT JOIN type ON discount.type_id = type.id`;
   if (typeName) {
-    sql += ` WHERE LOWER(type.name) LIKE '%${typeName.toLowerCase()}%'`;
+    query += ` WHERE LOWER(type.name) LIKE '%${typeName.toLowerCase()}%'`;
   }
   if (typeId) {
-    sql += ` WHERE discount.type_id = ${typeId}`;
+    query += ` WHERE discount.type_id = ${typeId}`;
   }
-  client.query(sql, (err, res) => {
+  client.query(query, (err, res) => {
     if (err) {
       console.log('error: ', err);
       result(err, null);

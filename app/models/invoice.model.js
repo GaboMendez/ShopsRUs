@@ -44,22 +44,33 @@ Invoice.create = async (newInvoice, result) => {
     return;
   }
 };
-Invoice.getAll = (result) => {
-  const query = `SELECT invoice.id invoice_id, SUM(invoice_detail.price) total FROM invoice 
+
+Invoice.getAll = (invoiceId, result) => {
+  let query = `SELECT invoice.id invoice_id, SUM(invoice_detail.price) total FROM invoice 
                  INNER JOIN invoice_detail ON invoice.id = invoice_detail.invoice_id
                  GROUP BY invoice.id`;
+  if (invoiceId) {
+    query += ` HAVING invoice.id = ${invoiceId}`;
+  }
 
   client.query(query, (err, res) => {
     if (err) {
-      console.log('error: ', err);
       result(err, null);
       return;
     }
     const { rows, fields } = res;
-    const newRows = rows.map((row) => {
-      return { invoice_id: row.invoice_id, total: generalDiscount(row.total) };
-    });
-    result(null, newRows);
+    if (rows.length) {
+      const newRows = rows.map((row) => {
+        return {
+          invoice_id: row.invoice_id,
+          total: generalDiscount(row.total),
+        };
+      });
+      result(null, newRows);
+      return;
+    }
+    // not found Invoice with the id
+    result({ kind: 'not_found' }, null);
   });
 };
 
@@ -74,6 +85,7 @@ Invoice.getAllDetail = (clientName, result) => {
   if (clientName) {
     query += ` WHERE LOWER(client.name) LIKE '%${clientName.toLowerCase()}%'`;
   }
+
   client.query(query, (err, res) => {
     if (err) {
       console.log('error: ', err);
@@ -81,8 +93,13 @@ Invoice.getAllDetail = (clientName, result) => {
       return;
     }
     const { rows, fields } = res;
-    console.log('invoice details: ', rows);
-    result(null, rows);
+    if (rows.length) {
+      console.log('invoice details: ', rows);
+      result(null, rows);
+      return;
+    }
+    // not found Invoice with the id
+    result({ kind: 'not_found' }, null);
   });
 };
 

@@ -66,12 +66,18 @@ exports.create = (req, res) => {
 
 // Retrieve all Invoices from the database.
 exports.findAll = (req, res) => {
-  Invoice.getAll((err, data) => {
+  Invoice.getAll(req.params.id, (err, data) => {
     if (err)
-      res.status(500).send({
-        message:
-          err.message || 'Some error occurred while retrieving invoices.',
-      });
+      if (err.kind === 'not_found') {
+        res.status(404).send({
+          message: `Not found Invoice with id ${req.params.id}.`,
+        });
+      } else {
+        res.status(500).send({
+          message:
+            err.message || 'Some error occurred while retrieving invoices.',
+        });
+      }
     else res.send(data);
   });
 };
@@ -81,10 +87,16 @@ exports.findAllDetail = (req, res) => {
   const clientName = req.query.clientName;
   Invoice.getAllDetail(clientName, (err, data) => {
     if (err)
-      res.status(500).send({
-        message:
-          err.message || 'Some error occurred while retrieving invoices.',
-      });
+      if (err.kind === 'not_found') {
+        res.status(404).send({
+          message: `Not found Invoice Details with client name ${clientName}.`,
+        });
+      } else {
+        res.status(500).send({
+          message:
+            err.message || 'Some error occurred while retrieving invoices.',
+        });
+      }
     else res.send(data);
   });
 };
