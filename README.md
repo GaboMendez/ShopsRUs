@@ -1,6 +1,6 @@
 # ShopsRUs Server
 
-A retail store server, developed only the back-end API with NodeJs and ExpressJs.
+A retail store server, developed the back-end API with NodeJS and ExpressJS.
 
 ---
 
@@ -32,13 +32,13 @@ A retail store server, developed only the back-end API with NodeJs and ExpressJs
 
 ## Requirements
 
-For development, you will only need Node.js, PostgreSQL (pgAdmin) and a node global package, Yarn, installed in your environement.
+For development, you will only need NodeJS, PostgreSQL (pgAdmin) and a node global package, Yarn, installed in your environement.
 
 ### Node
 
 - #### Node installation on Windows
 
-  Just go on [official Node.js website](https://nodejs.org/) and download the installer.
+  Just go on [official NodeJS website](https://nodejs.org/) and download the installer.
   Also, be sure to have `git` available in your PATH, `npm` might need it (You can find git [here](https://git-scm.com/)).
 
 - #### Node installation on Ubuntu
@@ -49,7 +49,7 @@ For development, you will only need Node.js, PostgreSQL (pgAdmin) and a node glo
       $ sudo apt install npm
 
 - #### Other Operating Systems
-  You can find more information about the installation on the [official Node.js website](https://nodejs.org/) and the [official NPM website](https://npmjs.org/).
+  You can find more information about the installation on the [official NodeJS website](https://nodejs.org/) and the [official NPM website](https://npmjs.org/).
 
 If the installation was successful, you should be able to run the following command.
 
