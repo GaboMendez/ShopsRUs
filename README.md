@@ -86,7 +86,7 @@ Clone the repository, open terminal in root and do the following on terminal
 
 ## Configure app
 
-If you want set up locally you can follow these steps, you can also use `Thunder Client`(https://www.thunderclient.com/) to test, get the json config in `/app/config/ShopsRU_RestCollection.json` and download it to import the Collection API.
+If you want set up locally you can follow these steps, you can also use `Thunder Client`(https://www.thunderclient.com/) to test all the end-points, get the json config in `/app/config/ShopsRU_RestCollection.json` and download it to import the Collection API.
 
 <p aling="left">
   <img src="https://i.ibb.co/wKcCmJL/Rest-Collection.png" width="30%" />
@@ -98,7 +98,7 @@ Create `/.env` file then edit it with your DB settings. This is an example, so u
   <img src="https://i.ibb.co/VTnXPvR/DB-Config.png" width="30%" />
 </p>
   
-After Setting up the database, create database tables running the DDL Scripts in `/app/config/scripts.ddl.query`, its advisable to run the scripts on active DB connection.
+After Setting up the database, create database tables running the DDL Scripts in `/app/config/scripts.ddl.query`, it's advisable to run the scripts on active DB connection.
 
 Place seed database, insert data for use-cases by running the DML Scripts in `/app/config/scripts.dml.query`, it's advisable to run the scripts on active DB connection.
 
