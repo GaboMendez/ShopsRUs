@@ -48,11 +48,11 @@ CREATE TABLE IF NOT EXISTS invoice (
 );
 CREATE TABLE IF NOT EXISTS invoice_detail (
     "id" SERIAL PRIMARY KEY,
-    "invoice_id" INT,
     "discount_id" INT,
-    "product_id" INT,
-    "quantity" INT,
+    "invoice_id" INT NOT NULL,
+    "product_id" INT NOT NULL,
     "price" DECIMAL NOT NULL,
+    "quantity" INT NOT NULL,
     "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_detail_invoice FOREIGN KEY(invoice_id) REFERENCES invoice(id),
     CONSTRAINT fk_detail_discount FOREIGN KEY(discount_id) REFERENCES discount(id),
