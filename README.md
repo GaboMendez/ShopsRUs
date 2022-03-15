@@ -113,7 +113,7 @@ If the initialization was successful, you should be able to see the following me
 
 ## Features
 
-Add to Base URL `http://localhost:$SERVER_PORT/` (if you use the Collection API this PORT is 8080) above
+Add to Base URL `http://localhost:$SERVER_PORT/` above (if you use the Collection API this PORT is 8080)
 
 - Use the following Endpoints
 
