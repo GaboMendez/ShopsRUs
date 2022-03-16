@@ -11,11 +11,11 @@ A retail store server, developed the back-end API with NodeJS and ExpressJS.
   - [Entity Relationship Diagram](#entity-relationship-diagram)
   - [Requirements](#requirements)
     - [Node](#node)
-    - [Yarn installation](#yarn-installation)
+    - [Yarn](#yarn)
     - [PostgreSQL](#postgresql)
   - [Install](#install)
   - [Configure app](#configure-app)
-  - [Start server by running](#start-server-by-running)
+  - [Start server](#start-server)
   - [Features](#features)
     - [Category](#category)
     - [Product](#product)
@@ -63,7 +63,7 @@ If you need to update `npm`, you can make it using `npm`! Cool right? After runn
 
     $ npm install npm -g
 
-### Yarn installation
+### Yarn
 
 After installing node, this project will need yarn too, so just run the following command.
 
@@ -102,7 +102,7 @@ After Setting up the database, create database tables running the DDL Scripts in
 
 Place seed database, insert data for use-cases by running the DML Scripts in `/app/config/scripts.dml.query`, it's advisable to run the scripts on active DB connection.
 
-## Start server by running
+## Start server
 
     $ node server.js
 
