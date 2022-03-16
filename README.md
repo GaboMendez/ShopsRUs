@@ -63,16 +63,17 @@ If you need to update `npm`, you can make it using `npm`! Cool right? After runn
 
     $ npm install npm -g
 
-### PostgreSQL
-
-Just go on [official PostgreSQL website](https://www.postgresql.org/download/) and download the installer.
-If the installation was successful, you should download [pgAdmin](https://www.postgresql.org/download/) this is the most popular and feature rich Open Source administration and development platform for PostgreSQL.
 
 ### Yarn installation
 
 After installing node, this project will need yarn too, so just run the following command.
 
       $ npm install -g yarn
+      
+### PostgreSQL
+
+Just go on [official PostgreSQL website](https://www.postgresql.org/download/) and download the installer.
+If the installation was successful, you should download [pgAdmin](https://www.postgresql.org/download/) this is the most popular and feature rich Open Source administration and development platform for PostgreSQL.
 
 ---
 
